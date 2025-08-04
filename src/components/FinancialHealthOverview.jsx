@@ -41,7 +41,7 @@ const FinancialHealthOverview = ({ data }) => {
     },
     {
       title: 'Payment History',
-      value: `${data.paymentHistory}%`,
+      value: `${data.payment_history}%`,
       status: getHealthStatus(100 - data.paymentHistory, [5, 15], ['Excellent', 'Good', 'Poor']),
       color: getHealthColor(100 - data.paymentHistory, [5, 15]),
       icon: Calendar,

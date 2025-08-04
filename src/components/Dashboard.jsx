@@ -32,7 +32,7 @@ const Dashboard = () => {
         // Using mock data for now. You can create another endpoint to provide these.
         // monthlyIncome: 6500,
         // totalDebt: 18200,
-        paymentHistory: 98,
+        paymentHistory: user.payment_history,
         creditAge: 7.5,
         // creditMix: 85,
       });
