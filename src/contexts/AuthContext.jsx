@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }) => {
 
       if (response.ok) {
         const userData = await response.json();
-        const [score, utilization, dti] = userData.credit_score;
+        const [score, utilization, dti, chyears] = userData.credit_score;
 
         const appUser = {
           name: userData.username,
@@ -58,6 +58,7 @@ export const AuthProvider = ({ children }) => {
           // Convert ratios to percentages for the UI components
           creditUtilization: Math.round(utilization * 100),
           debtToIncomeRatio: Math.round(dti * 100),
+          chyears: chyears,
           financialHealth: parseFloat(userData.financial_health),
           monthlyIncome: userData.monthly_income,
           totalDebt: userData.total_debt,
