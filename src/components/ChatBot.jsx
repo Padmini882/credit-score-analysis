@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useAuth } from '../contexts/AuthContext';
 import { Send, Bot, User, MessageCircle, Loader } from 'lucide-react';
 
 const ChatBot = () => {
+  const { user } = useAuth();
   const [messages, setMessages] = useState([
     {
       id: '1',
@@ -50,7 +52,7 @@ const ChatBot = () => {
         const data = await response.json();
         botResponse = data.response;
       } else {
-        botResponse = generateMockResponse(inputMessage);
+        botResponse = generateMockResponse(inputMessage, user);
       }
 
       const botMessage = {
@@ -64,7 +66,7 @@ const ChatBot = () => {
     } catch (error) {
       const botMessage = {
         id: (Date.now() + 1).toString(),
-        text: generateMockResponse(inputMessage),
+        text: generateMockResponse(inputMessage, user),
         sender: 'bot',
         timestamp: new Date(),
       };
@@ -76,11 +78,27 @@ const ChatBot = () => {
     }
   };
 
-  const generateMockResponse = (userInput) => {
+  const generateMockResponse = (userInput, userData) => {
     const input = userInput.toLowerCase();
+
+    if (!userData) {
+      return "I'm sorry, I can't access your financial data at the moment. Please try again later.";
+    }
+
+    const { creditScore, debtToIncomeRatio, creditUtilization } = userData;
+
+    const getScoreRating = (score) => {
+      if (!score) return 'N/A';
+      if (score >= 800) return 'Excellent';
+      if (score >= 740) return 'Very Good';
+      if (score >= 670) return 'Good';
+      if (score >= 580) return 'Fair';
+      return 'Poor';
+    };
+    const scoreRating = getScoreRating(creditScore);
     
     if (input.includes('credit score') || input.includes('score')) {
-      return "Your current credit score of 742 is in the 'Good' range! This puts you in a strong position for most loan applications. To move into the 'Excellent' range (750+), focus on reducing your credit utilization below 10% and maintaining perfect payment history.";
+      return `Your current credit score of ${creditScore} is in the '${scoreRating}' range! This puts you in a strong position for most loan applications. To move into the 'Excellent' range (800+), focus on reducing your credit utilization below 10% and maintaining perfect payment history.`;
     }
     
     if (input.includes('improve') || input.includes('better') || input.includes('increase')) {
@@ -88,15 +106,15 @@ const ChatBot = () => {
     }
     
     if (input.includes('debt') || input.includes('pay') || input.includes('payment')) {
-      return "Managing debt effectively is crucial for credit health. Your current debt-to-income ratio is 28%, which is reasonable but could be improved. Consider the 'avalanche method' - pay minimums on all debts, then put extra money toward the highest interest rate debt first. This saves money and improves your credit utilization faster.";
+      return `Managing debt effectively is crucial for credit health. Your current debt-to-income ratio is ${debtToIncomeRatio}%, which is reasonable but could be improved. Consider the 'avalanche method' - pay minimums on all debts, then put extra money toward the highest interest rate debt first. This saves money and improves your credit utilization faster.`;
     }
     
     if (input.includes('utilization') || input.includes('credit card')) {
-      return "Credit utilization is 30% of your credit score calculation! Your current 35% utilization is higher than ideal. Aim for under 30% across all cards, and under 10% for the best scores. Pro tip: Make multiple payments per month or pay before your statement closes to keep reported balances low.";
+      return `Credit utilization is 30% of your credit score calculation! Your current ${creditUtilization}% utilization is higher than ideal. Aim for under 30% across all cards, and under 10% for the best scores. Pro tip: Make multiple payments per month or pay before your statement closes to keep reported balances low.`;
     }
     
     if (input.includes('forecast') || input.includes('future') || input.includes('predict')) {
-      return "Based on your current financial behavior, I predict your credit score could reach 762 within 6 months if you maintain good habits. With aggressive improvements (paying down debt, perfect payments), you could potentially reach 777! The key is consistency - small improvements compound over time.";
+      return `Based on your current financial behavior, I predict your credit score could reach ${creditScore + 20} within 6 months if you maintain good habits. With aggressive improvements (paying down debt, perfect payments), you could potentially reach ${creditScore + 35}! The key is consistency - small improvements compound over time.`;
     }
     
     if (input.includes('report') || input.includes('error') || input.includes('mistake')) {
@@ -112,7 +130,7 @@ const ChatBot = () => {
     }
     
     if (input.includes('loan') || input.includes('mortgage') || input.includes('apply')) {
-      return "With your 742 credit score, you should qualify for good rates on most loans! For mortgages, you'll likely get rates close to the best available. For auto loans, you're in the 'prime' category. Personal loans should also have reasonable rates. Shopping around with multiple lenders within 14-45 days counts as one inquiry, so compare offers freely.";
+      return `With your ${creditScore} credit score, you should qualify for good rates on most loans! For mortgages, you'll likely get rates close to the best available. For auto loans, you're in the 'prime' category. Personal loans should also have reasonable rates. Shopping around with multiple lenders within 14-45 days counts as one inquiry, so compare offers freely.`;
     }
     
     if (input.includes('thanks') || input.includes('thank you')) {

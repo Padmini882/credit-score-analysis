@@ -27,13 +27,15 @@ const Dashboard = () => {
         financialHealth: user.financialHealth,
         monthlyIncome: user.monthlyIncome,
         totalDebt: user.totalDebt,
+        paymentHistory: user.paymentHistory,
+        chyears: user.chyears,
 
         // These data points are not in the /login response.
         // Using mock data for now. You can create another endpoint to provide these.
         // monthlyIncome: 6500,
         // totalDebt: 18200,
-        paymentHistory: user.payment_history,
-        creditAge: 7.5,
+        // paymentHistory: user.payment_history,
+        // creditAge: 7.5,
         // creditMix: 85,
       });
       setLoading(false);

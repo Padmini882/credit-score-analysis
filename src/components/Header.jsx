@@ -5,6 +5,17 @@ import { CreditCard, LogOut, User, Shield, Star } from 'lucide-react';
 const Header = () => {
   const { user, logout } = useAuth();
 
+  const getScoreRating = (score) => {
+    if (!score) return null;
+    if (score >= 800) return 'Excellent';
+    if (score >= 740) return 'Very Good';
+    if (score >= 670) return 'Good';
+    if (score >= 580) return 'Fair';
+    return 'Poor';
+  };
+
+  const scoreRating = getScoreRating(user?.creditScore);
+
   return (
     <header className="bg-gradient-to-r from-blue-600 via-blue-700 to-purple-800 shadow-xl border-b border-blue-500">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -34,8 +45,10 @@ const Header = () => {
               <div className="flex items-center space-x-2">
                 <Star className="h-4 w-4 text-yellow-400" />
                 <div className="text-white">
-                  <div className="text-sm font-semibold">742</div>
-                  <div className="text-xs text-blue-200">Good Score</div>
+                <div className="text-sm font-semibold">{user?.creditScore || '...'}</div>
+                  <div className="text-xs text-blue-200">
+                    {scoreRating ? `${scoreRating} Score` : ''}
+                  </div>
                 </div>
               </div>
             </div>

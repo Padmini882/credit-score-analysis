@@ -62,6 +62,7 @@ export const AuthProvider = ({ children }) => {
           financialHealth: parseFloat(userData.financial_health),
           monthlyIncome: userData.monthly_income,
           totalDebt: userData.total_debt,
+          paymentHistory: userData.payment_history,
         };
         setUser(appUser);
         localStorage.setItem('user', JSON.stringify(appUser));

@@ -140,7 +140,7 @@ const fetchExpenseData = async (username) => {
     <div className="space-y-6">
       <div className="card p-6">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-gray-900">Monthly Expenses</h3>
+          <h3 className="text-lg font-semibold text-gray-900">Total Expenses</h3>
           <div className="text-right">
             <div className="text-2xl font-bold text-gray-900">
              ${(totalExpenses || 0).toLocaleString()}

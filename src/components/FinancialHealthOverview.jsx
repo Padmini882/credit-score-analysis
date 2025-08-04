@@ -41,7 +41,7 @@ const FinancialHealthOverview = ({ data }) => {
     },
     {
       title: 'Payment History',
-      value: `${data.payment_history}%`,
+      value: `${data.paymentHistory}%`,
       status: getHealthStatus(100 - data.paymentHistory, [5, 15], ['Excellent', 'Good', 'Poor']),
       color: getHealthColor(100 - data.paymentHistory, [5, 15]),
       icon: Calendar,
@@ -186,7 +186,7 @@ const FinancialHealthOverview = ({ data }) => {
               Average Credit Age
             </h4>
             <div className="text-3xl font-bold">
-            {(data.creditAge || 0).toFixed(1)} years
+            {(data.chyears || 0).toFixed(1)} years
             </div>
             <p className="text-xs text-purple-100 mt-1">Longer history is better</p>
           </div>

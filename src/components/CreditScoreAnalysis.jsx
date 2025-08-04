@@ -53,18 +53,18 @@ const CreditScoreAnalysis = ({ data }) => {
       },
       {
         name: 'Credit Age',
-        impact: data.creditAge >= 10 ? 'positive' : data.creditAge >= 5 ? 'neutral' : 'negative',
+        impact: data.chyears >= 10 ? 'positive' : data.chyears >= 5 ? 'neutral' : 'negative',
         weight: 15,
         description: 'Average age of your credit accounts',
-        currentValue: `${data.creditAge} years`,
+        currentValue: `${data.chyears} years`,
         idealValue: '> 10 years',
       },
       {
-        name: 'Credit Mix',
-        impact: data.creditMix >= 80 ? 'positive' : data.creditMix >= 60 ? 'neutral' : 'negative',
+        name: 'Financial Health',
+        impact: data.financialHealth >= 80 ? 'positive' : data.financialHealth >= 60 ? 'neutral' : 'negative',
         weight: 10,
         description: 'Variety of credit types you manage',
-        currentValue: `${data.creditMix}%`,
+        currentValue: `${data.financialHealth}%`,
         idealValue: '> 80%',
       },
       {
@@ -110,24 +110,35 @@ const CreditScoreAnalysis = ({ data }) => {
       });
     }
 
-    if (data.creditMix < 70) {
-      mockSuggestions.push({
-        title: 'Diversify Credit Mix',
-        description: 'Consider adding different types of credit accounts (installment loans, credit cards) responsibly.',
-        impact: 'low',
-        timeframe: '3-6 months',
-        actionable: true,
-      });
-    }
+  const score = data.financialHealth;
 
-    // Always include some general suggestions
+  if (score >= 80) {
     mockSuggestions.push({
-      title: 'Monitor Credit Reports',
-      description: 'Check all three credit reports regularly for errors and dispute any inaccuracies you find.',
+      title: 'Maintain Good Habits',
+      description: 'Your financial health is strong. Keep making timely payments and managing credit wisely.',
+      impact: 'low',
+      timeframe: 'ongoing',
+      actionable: false,
+    });
+  } else if (score >= 70) {
+    mockSuggestions.push({
+      title: 'Improve Financial Mix',
+      description: 'Consider diversifying your credit mix and reducing utilization to boost your score.',
       impact: 'medium',
-      timeframe: 'Ongoing',
+      timeframe: '3-6 months',
       actionable: true,
     });
+  } else {
+    mockSuggestions.push({
+      title: 'Take Immediate Action',
+      description: 'Focus on paying off overdue balances, avoiding new credit inquiries, and building a positive payment history.',
+      impact: 'high',
+      timeframe: '1-3 months',
+      actionable: true,
+    });
+  }
+
+    
 
     setFactors(mockFactors);
     setSuggestions(mockSuggestions);
